@@ -1,0 +1,54 @@
+#include "stm32f4xx_hal.h"
+
+I2C_HandleTypeDef hi2c1;
+
+void SystemClock_Config(void);
+static void MX_GPIO_Init(void);
+static void MX_I2C1_Init(void);
+
+int main(void)
+{
+  HAL_Init();
+  SystemClock_Config();
+  MX_GPIO_Init();
+  MX_I2C1_Init();
+
+  uint8_t receivedData[2] = {0};
+  while (1)
+  {
+    // Anfrage von Slave 1 (LED-Zustände: Rot & Blau)
+    HAL_I2C_Master_Receive(&hi2c1, (uint16_t)(0x55 << 1), receivedData, 2, 1000);
+    printf("Slave 1 - Rote LED: %s, Blaue LED: %s\n", receivedData[0] ? "EIN" : "AUS", receivedData[1] ? "EIN" : "AUS");
+
+    // Anfrage von Slave 2 (LED-Zustände: Weiß & Rot)
+    HAL_I2C_Master_Receive(&hi2c1, (uint16_t)(0x56 << 1), receivedData, 2, 1000);
+    printf("Slave 2 - Weiße LED: %s, Gruene LED: %s\n", receivedData[0] ? "EIN" : "AUS", receivedData[1] ? "EIN" : "AUS");
+
+    HAL_Delay(1000);
+  }
+}
+
+void SystemClock_Config(void)
+{
+  // System Clock Configuration
+}
+
+static void MX_I2C1_Init(void)
+{
+  hi2c1.Instance = I2C1;
+  hi2c1.Init.ClockSpeed = 100000;
+  hi2c1.Init.DutyCycle = I2C_DUTYCYCLE_2;
+  hi2c1.Init.OwnAddress1 = 0;
+  hi2c1.Init.AddressingMode = I2C_ADDRESSINGMODE_7BIT;
+  hi2c1.Init.DualAddressMode = I2C_DUALADDRESS_DISABLE;
+  hi2c1.Init.OwnAddress2 = 0;
+  hi2c1.Init.GeneralCallMode = I2C_GENERALCALL_DISABLE;
+  hi2c1.Init.NoStretchMode = I2C_NOSTRETCH_DISABLE;
+  HAL_I2C_Init(&hi2c1);
+}
+
+static void MX_GPIO_Init(void)
+{
+  // GPIO Initialization for I2C pins
+}
+
