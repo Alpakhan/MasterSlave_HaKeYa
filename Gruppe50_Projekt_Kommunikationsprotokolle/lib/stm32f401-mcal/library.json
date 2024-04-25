@@ -1,0 +1,24 @@
+{
+    "name": "stm32f401-mcal",
+    "version": "0.0.1",
+    "description": "Abstraction Layer for STM32F401RE mikrocontroller for educational purpose.",
+    "keywords": "stm32f401, mcal, hal",
+    "repository":
+    {
+      "type": "git",
+      "url": "https://codeberg.org/jomaway/stm32f401-mcal"
+    },
+    "authors":
+    [
+      {
+        "name": "Jonas Malassa",
+        "email": "jonas.malassa@rdf.nuernberg.de",
+        "maintainer": true
+      }
+    ],
+    "license": "MIT",
+    "homepage": "https://codeberg.org/jomaway/stm32f401-mcal",
+    "dependencies": {},
+    "frameworks": "cmsis",
+    "platforms": "ststm32"
+  }
