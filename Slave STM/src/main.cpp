@@ -30,6 +30,11 @@ void I2C_RxHandler(int numBytes) {
   }
 }
 
+void sendData() {
+  Wire.write(ledRedState ? 1 : 0);
+  Wire.write(ledBlueState ? 1 : 0);
+}
+
 void setup() {
   pinMode(LED_PIN_RED, OUTPUT);
   pinMode(LED_PIN_BLUE, OUTPUT);
