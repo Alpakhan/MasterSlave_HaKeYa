@@ -51,38 +51,22 @@
 // }
 #include <Wire.h>
 
-// Definiere die Slave-Adresse
-#define SLAVE_ADDRESS 0x55
-
-// Beispiel Daten, die gesendet werden sollen
-byte dataToSend[] = {1, 2, 3, 4, 5, 6, 7, 8, 9, 0};
-int dataIndex = 0;
+#define SLAVE_ADDRESS 0x04  // I2C Adresse des Arduino-Slaves
 
 void setup() {
-  // Starte die I2C-Bibliothek als Slave
-  Wire.begin(SLAVE_ADDRESS);
-  
-  // Registriere den Request-Event-Handler
-  Wire.onRequest(requestEvent);
-  
-  // Starte die serielle Kommunikation für Debugging
-  Serial.begin(9600);
+  Wire.begin(SLAVE_ADDRESS);            // Startet den I2C-Bus als Slave
+  Wire.onRequest(requestEvent);         // Registriert die onRequest-Event-Handler-Funktion
+  Serial.begin(9600);                   // Startet die serielle Kommunikation für Debugging
 }
 
 void loop() {
-  // Hier könnte weitere Logik eingebaut werden.
-  delay(100); // Einfache Verzögerung in der Schleife
+  // Hauptprogrammschleife des Arduino, hier wird nichts benötigt
+  delay(100);
 }
 
-// Diese Funktion wird aufgerufen, wenn der Master Daten anfordert
+// Diese Funktion wird ausgeführt, wenn der Master Daten anfordert
 void requestEvent() {
-  // Sende das nächste Byte des Datenarrays
-  Wire.write(dataToSend[dataIndex]);
-  
-  // Aktualisiere den Index für das nächste zu sendende Byte
-  dataIndex = (dataIndex + 1) % sizeof(dataToSend);
-  
-  // Optional: Ausgabe auf den Serial Monitor für Debugging
-  Serial.print("Gesendet: ");
-  Serial.println(dataToSend[dataIndex]);
+  byte dataToSend = 0x55;               // Beispiel Daten zum Senden
+  Wire.write(dataToSend);               // Sendet ein Byte an den Master
+  Serial.println("Daten gesendet");     // Gibt eine Nachricht auf dem Serial Monitor aus
 }
