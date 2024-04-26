@@ -20,7 +20,7 @@ void I2C_RxHandler(int numBytes) {
       ledGreenState = receivedByte != 0; // Setze den Zustand auf HIGH, wenn das Byte nicht 0 ist
       Serial.print("Rote LED ist ");
       Serial.println(ledGreenState ? "EIN" : "AUS");
-    } else if (index == 4) {    // Fünfter Byte (Index 4)
+    } else if (index == 5) {    // Fünfter Byte (Index 4)
       // Schalte beide LEDs ein oder aus, abhängig vom empfangenen Byte
       bool newState = receivedByte != 0;
       ledWhiteState = newState;
