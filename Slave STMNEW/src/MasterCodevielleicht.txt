@@ -52,3 +52,21 @@ static void MX_GPIO_Init(void)
   // GPIO Initialization for I2C pins
 }
 
+
+ //Newstuff
+#include "mcal_i2c.h"
+
+#define SLAVE_ADDR 0x55
+
+int main(void) {
+    uint8_t receivedData[10];  // Buffer für empfangene Daten
+    mcal_i2c_init();           // Initialisiere den I2C-Bus
+
+    while (1) {
+        // Fordere 10 Bytes vom Slave an der Adresse SLAVE_ADDR an
+        if (mcal_i2c_read(SLAVE_ADDR << 1, receivedData, 10) == MCAL_I2C_OK) {
+            // Verarbeitung der empfangenen Daten oder Ausgabe
+        }
+        mcal_delay(1000); // Warte eine Sekunde zwischen den Anfragen
+    }
+}
