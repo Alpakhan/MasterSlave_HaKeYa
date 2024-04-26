@@ -18,11 +18,11 @@ int main(void)
   {
     // Anfrage von Slave 1 (LED-Zustände: Rot & Blau)
     HAL_I2C_Master_Receive(&hi2c1, (uint16_t)(0x55 << 1), receivedData, 2, 1000);
-    printf("Slave 1 - Rote LED: %s, Blaue LED: %s\n", receivedData[0] ? "EIN" : "AUS", receivedData[1] ? "EIN" : "AUS");
+    //printf("Slave 1 - Rote LED: %s, Blaue LED: %s\n", receivedData[0] ? "EIN" : "AUS", receivedData[1] ? "EIN" : "AUS");
 
     // Anfrage von Slave 2 (LED-Zustände: Weiß & Rot)
     HAL_I2C_Master_Receive(&hi2c1, (uint16_t)(0x56 << 1), receivedData, 2, 1000);
-    printf("Slave 2 - Weiße LED: %s, Gruene LED: %s\n", receivedData[0] ? "EIN" : "AUS", receivedData[1] ? "EIN" : "AUS");
+    //printf("Slave 2 - Weiße LED: %s, Gruene LED: %s\n", receivedData[0] ? "EIN" : "AUS", receivedData[1] ? "EIN" : "AUS");
 
     HAL_Delay(1000);
   }
