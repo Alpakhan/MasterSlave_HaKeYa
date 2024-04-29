@@ -1,18 +1,22 @@
-#include <stm32f401xe.h>
+#include<stm32f401xe.h>
 #include <i2c.h>
 #include <gpio.h>
 #include <stdio.h>
 #include <uart.h>
 
+#define I2C_WAIT_BUSY(i2c) ({ while (i2c->SR2 & I2C_SR2_BUSY) ; })
+
 uint8_t puffer[10];
 uint8_t x;
 
-uint8_t r_data[1];
-uint8_t t_data[1];
+uint8_t r_data[8];
+uint8_t t_data[8];
 
-//Adresse 
-//Slave 1(weiß,grün): 0x08
-//Slave 2(blau,rot):  0x09
+
+
+//Adressen
+//Slave 1(LED: weiß,grün): 0x08
+//Slave 2(LED: blau,rot):  0x09
 
 
 int main()
@@ -26,36 +30,12 @@ int main()
 
     printf("Gruppe50\n");
     printf("Master\n");
-    printf("t_data: %1c\n", t_data[0]);
-    printf("r_data: %1c\n", t_data[0]);
-    while(1){   }
-}
- 
-int _write(int fd, char *ptr, int len)
-{
-    uint32_t size = len;
-    while (len-- > 0)
-    {
-        uart_write_byte(USART2, *(ptr++));
-    }
- 
-    return size;
-}
- 
-void USART2_IRQHandler()
-{
-    if (uart_data_available(USART2))
-    {   
-        char byte = USART2->DR & 0x1FF;
-        puffer[x] = byte;
-        x = x+1;
-        printf("%c\n", byte);
-
-        if (puffer[0] == 'g' && puffer[1] == 'r' && byte == '\n')
+    while(1){
+        if (puffer[0] == 'g' && puffer[1] == 'r')       //LED grün soll bei Slave 1 0x08 toggeln
         {   
             printf("grün");
             t_data[0] = 1;
-            i2c_master_transmit(I2C1,0x08,t_data,1);
+            printf("%1i\n",i2c_master_transmit(I2C1,0x08,t_data,1));
             printf("I2C master transmit: grün toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
@@ -63,11 +43,11 @@ void USART2_IRQHandler()
             x=0;
         }
 
-        if (puffer[0] == 'w'&& puffer[1] == 's' && byte == '\n')
+        if (puffer[0] == 'w'&& puffer[1] == 's')        // LED weiß soll bei Slave 1 0x08 toggeln
         {   
             printf("weiß");
             t_data[0] = 2;
-            i2c_master_transmit(I2C1,0x08,t_data,1);
+            printf("%1i\n",i2c_master_transmit(I2C1,0x08,t_data,1));
             printf("I2C master transmit: weiß toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
@@ -76,11 +56,12 @@ void USART2_IRQHandler()
             x=0;
         }
 
-        if (puffer[0] == 'b' && puffer[1] == 'l' && byte == '\n')
+        if (puffer[0] == 'b' && puffer[1] == 'l')         // LED blau soll bei Slave 2 0x09 toggeln
         {
             printf("blau");
-            t_data[0] = 3;
-            i2c_master_transmit(I2C1,0x08,t_data,1);
+            t_data[0] = 1;
+            printf("%1i\n",i2c_master_transmit(I2C1,0x09,t_data,1));
+            printf("t_data: %1i\n", t_data[0]);
             printf("I2C master transmit: blau toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
@@ -89,11 +70,12 @@ void USART2_IRQHandler()
             x=0;
         }
 
-        if (puffer[0] == 'r'&& puffer[1] == 't' && byte == '\n')
+        if (puffer[0] == 'r'&& puffer[1] == 't')           // LED rot soll bei Slave 2 0x09 toggeln
         {
             printf("rot");
-            t_data[0] = 4;
-            i2c_master_transmit(I2C1,0x08,t_data,1);
+            t_data[0] = 2;
+            printf("%1i\n",i2c_master_transmit(I2C1,0x08,t_data,1));
+
             printf("I2C master transmit: rot toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
@@ -102,11 +84,11 @@ void USART2_IRQHandler()
             x=0;
         }
 
-        if (puffer[0] == '1'&& byte == '\n')
+        if (puffer[0] == '1')                                // LED grün & weiß an Slave 1 0x08 toggeln
         {
             printf("grün weiß");
             t_data[0] = 5;
-            i2c_master_transmit(I2C1,0x08,t_data,1);
+            printf("%1i\n",i2c_master_transmit(I2C1,0x08,t_data,1));
             printf("I2C master transmit: grün & weiß toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
@@ -115,11 +97,11 @@ void USART2_IRQHandler()
             x=0;
         }
 
-        if (puffer[0] == '2' && byte == '\n')
+        if (puffer[0] == '2')                               // LED rot & blau an Slave 2 0x09 toggeln
         {
             printf("rot blau");
-            t_data[0] = 6;
-            i2c_master_transmit(I2C1,0x08,t_data,1);
+            t_data[0] = 5;
+            printf("%1i\n",i2c_master_transmit(I2C1,0x09,t_data,1));
             printf("I2C master transmit: rot & blau toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
@@ -128,7 +110,7 @@ void USART2_IRQHandler()
             x=0;
         }
 
-        if (puffer[0] == 'c' && puffer[1] == 'h' && puffer[2] == 'c' && byte == '\n')
+        if (puffer[0] == 'c' && puffer[1] == 'h' && puffer[2] == 'c')       // Slave 1 & 2 abfrage welche LED ist an
         {
             i2c_master_receive(I2C1,0x08,r_data,1);
 
@@ -158,7 +140,7 @@ void USART2_IRQHandler()
             }
 
 
-            i2c_master_receive(I2C1,0x09,r_data,1);
+            i2c_master_receive(I2C1,0x09,r_data,2);
 
             printf("I2C master receive 0x09\n");
 
@@ -183,38 +165,56 @@ void USART2_IRQHandler()
                 default:  // Fehler
                     printf("I2C 0x09 master receive: Ungültiger Zustand\n");
                 break;
+            }
+        
+            puffer[0]=0;
+            puffer[1]=0;
+            puffer[2]=0;
+            t_data[0]=0;
+            x=0;
+        }
 
+            if (puffer[0] == '\n' || puffer[1] == '\n' || puffer[3] == '\n' || puffer[4] == '\n' || x > 4)
+            {
+                puffer[0]=0;
+                puffer[1]=0;
+                puffer[2]=0;
+                puffer[3]=0;
+                puffer[4]=0;            
+                x=0;
+                printf("-------------Neue--Eingabe-!---------------------\n");
             }
 
-            r_data[0]=0;
-            puffer[0]=0;
-            puffer[1]=0;
-            puffer[2]=0;
-            puffer[3]=0;
-            puffer[4]=0;
-            x=0;
-        }
-
-        if (puffer[0] == '\n' || puffer[1] == '\n' || puffer[3] == '\n' || puffer[4] == '\n' || x > 4)
-        {
-            puffer[0]=0;
-            puffer[1]=0;
-            puffer[2]=0;
-            puffer[3]=0;
-            puffer[4]=0;            
-            x=0;
-            printf("-------------Neue--Eingabe-!---------------------\n");
-        }
-
-            printf("0:%1c\n", puffer[0]);
-            printf("1:%1c\n", puffer[1]);
-            printf("2:%1c\n", puffer[2]);
-            printf("3:%1c\n", puffer[3]);
-            printf("3:%1c\n", puffer[4]);
-            printf("%1i\n", x);
+            //printf("0:%1c\n", puffer[0]);
+            //printf("1:%1c\n", puffer[1]);
+            //printf("2:%1c\n", puffer[2]);
+            //printf("3:%1c\n", puffer[3]);
+            //printf("3:%1c\n", puffer[4]);
+            //printf("%1i\n", x);
 
 
+      }
+}
+ 
+int _write(int fd, char *ptr, int len)
+{
+    uint32_t size = len;
+    while (len-- > 0)
+    {
+        uart_write_byte(USART2, *(ptr++));
+    }
+ 
+    return size;
+}
 
-
+ 
+void USART2_IRQHandler()
+{
+    if (uart_data_available(USART2))
+    {   
+        char byte = USART2->DR & 0x1FF;
+        puffer[x] = byte;
+        x = x+1;
+        printf("%c\n", byte);
     }
 }
