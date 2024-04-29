@@ -1,12 +1,11 @@
+//#include <Wire.h>
 // #include <Arduino.h>
-// #include <Wire.h>
 
+// #define LED_PIN_RED 13
+// #define LED_PIN_BLUE 12
 
-// #define LED_PIN_WHITE 12
-// #define LED_PIN_GREEN 13
-
-// bool ledWhiteState = false;
-// bool ledGreenState = false;
+// bool ledRedState = false;
+// bool ledBlueState = false;
 
 // void I2C_RxHandler(int numBytes) {
 //   int index = 0;
@@ -14,47 +13,48 @@
   
 //   while (Wire.available()) {
 //     receivedByte = Wire.read(); // Lese das nächste verfügbare Byte
-//     if (index == 0) {           // Erster Byte (Index 0)
-//       ledWhiteState = receivedByte != 0;  // Setze den Zustand auf HIGH, wenn das Byte nicht 0 ist
-//       Serial.print("Weisse LED ist ");
-//       Serial.println(ledWhiteState ? "EIN" : "AUS");
-//     } else if (index == 1) {    // Zweiter Byte (Index 1)
-//       ledGreenState = receivedByte != 0; // Setze den Zustand auf HIGH, wenn das Byte nicht 0 ist
-//       Serial.print("Gruene LED ist ");
-//       Serial.println(ledGreenState ? "EIN" : "AUS");
-//     } else if (index == 5) {    // Fünfter Byte (Index 4)
-//       // Schalte beide LEDs ein oder aus, abhängig vom empfangenen Byte
-//       bool newState = receivedByte != 0;
-//       ledWhiteState = newState;
-//       ledGreenState = newState;
-//       Serial.print("Beide LEDs sind ");
-//       Serial.println(newState ? "EIN" : "AUS");
+//     if (index == 2) {           // Dritter Byte (Index 2, da Indexierung bei 0 beginnt)
+//       ledRedState = receivedByte != 0;  // Setze den Zustand auf HIGH, wenn das Byte nicht 0 ist
+//       Serial.print("Rote LED ist ");
+//       Serial.println(ledRedState ? "EIN" : "AUS");
+//     } else if (index == 3) {    // Vierter Byte (Index 3)
+//       ledBlueState = receivedByte != 0; // Setze den Zustand auf HIGH, wenn das Byte nicht 0 ist
+//       Serial.print("Blaue LED ist ");
+//       Serial.println(ledBlueState ? "EIN" : "AUS");
+//     } else if (index == 4) {    // Fünfter Byte (Index 4)
+//       // Schalte beide LEDs ein, unabhängig vom empfangenen Byte
+//       ledRedState = true;
+//       ledBlueState = true;
+//       Serial.println("Beide LEDs sind EIN");
 //     }
 //     index++;  // Erhöhe den Index für das nächste Byte
 //   }
 // }
+
 // void sendData() {
-//   Wire.write(ledWhiteState ? 1 : 0);
-//   Wire.write(ledGreenState ? 1 : 0);
+//   Wire.write(ledRedState ? 1 : 0);
+//   Wire.write(ledBlueState ? 1 : 0);
 // }
+
 // void setup() {
-//   pinMode(LED_PIN_WHITE, OUTPUT);
-//   pinMode(LED_PIN_GREEN, OUTPUT);
-//   Wire.begin(0x08);             // I2C als Slave mit einer anderen Adresse, z.B. 0x56
+//   pinMode(LED_PIN_RED, OUTPUT);
+//   pinMode(LED_PIN_BLUE, OUTPUT);
+//   Wire.begin(0x09);             // I2C als Slave mit Adresse 0x55 initialisieren
 //   Wire.onReceive(I2C_RxHandler);
 //   Serial.begin(9600);           // Beginne Serial Kommunikation
 // }
 
 // void loop() {
-//   digitalWrite(LED_PIN_WHITE, ledWhiteState ? HIGH : LOW); // Steuere weiße LED (Ein oder Aus)
-//   digitalWrite(LED_PIN_GREEN, ledGreenState ? HIGH : LOW);     // Steuere rote LED (Ein oder Aus)
+//   digitalWrite(LED_PIN_RED, ledRedState ? HIGH : LOW);   // Steuere rote LED (Ein oder Aus)
+//   digitalWrite(LED_PIN_BLUE, ledBlueState ? HIGH : LOW); // Steuere blaue LED (Ein oder Aus)
 //   delay(100);
 // }
+
 #include <Arduino.h>
 #include <Wire.h>
 
-#define LED_PIN_WHITE 12
-#define LED_PIN_GREEN 13
+#define LED_PIN_RED 13
+#define LED_PIN_BLUE 12
 
 void I2C_RxHandler(int numBytes) {
   while (Wire.available()) {
@@ -65,22 +65,22 @@ void I2C_RxHandler(int numBytes) {
     Serial.println(receivedByte, HEX); // HEX für hexadezimale Darstellung
     Serial.print("Binär: ");
     Serial.println(receivedByte, BIN); // BIN für binäre Darstellung
-    
-    digitalWrite(LED_PIN_WHITE, receivedByte & 0x01 ? HIGH : LOW);  // Setze die weiße LED (Bit 0)
-    digitalWrite(LED_PIN_GREEN, receivedByte & 0x02 ? HIGH : LOW);  // Setze die grüne LED (Bit 1)
-    digitalWrite(LED_PIN_WHITE & LED_PIN_GREEN, receivedByte & 0x05 ? HIGH : LOW);
-    Serial.print("Weiße LED ist ");
-    Serial.println(receivedByte & 0x01 ? "EIN" : "AUS");
-    Serial.print("Grüne LED ist ");
-    Serial.println(receivedByte & 0x02 ? "EIN" : "AUS");
+
+    digitalWrite(LED_PIN_RED, receivedByte & 0x03 ? HIGH : LOW);  // Setze die weiße LED (Bit 0)
+    digitalWrite(LED_PIN_BLUE, receivedByte & 0x04 ? HIGH : LOW);  // Setze die grüne LED (Bit 1)
+    digitalWrite(LED_PIN_RED & LED_PIN_BLUE, receivedByte & 0x05 ? HIGH : LOW);
+    Serial.print("Rote LED ist ");
+    Serial.println(receivedByte & 0x03 ? "EIN" : "AUS");
+    Serial.print("Blaue LED ist ");
+    Serial.println(receivedByte & 0x04 ? "EIN" : "AUS");
     Serial.println("Beide sind");
-    Serial.println(receivedByte & 0x05 ? "EIN" : "AUS");
+    Serial.println(receivedByte & 0x06 ? "EIN" : "AUS");
   }
 }
 
 void setup() {
-  pinMode(LED_PIN_WHITE, OUTPUT);
-  pinMode(LED_PIN_GREEN, OUTPUT);
+  pinMode(LED_PIN_BLUE, OUTPUT);
+  pinMode(LED_PIN_RED, OUTPUT);
   Wire.begin(0x08);  // I2C als Slave mit Adresse 0x08
   Wire.onReceive(I2C_RxHandler);
   Serial.begin(9600);  // Beginne Serial Kommunikation
@@ -90,3 +90,5 @@ void loop() {
   // Hier ist keine Aktualisierung notwendig, da die LEDs im Interrupt-Handler gesetzt werden
   delay(100);
 }
+
+
