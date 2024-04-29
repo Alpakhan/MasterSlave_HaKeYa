@@ -114,7 +114,7 @@ void i2c_write(I2C_TypeDef *i2c, uint8_t data)
 {
     I2C_CHECK_TXBUF_EMPTY(i2c); // Wait until the transmit buffer is empty
     i2c->DR = data;
-    I2C_BYTE_TRANSFER_FINISHED(i2c); // Wait until BTF Flag is set
+    //I2C_BYTE_TRANSFER_FINISHED(i2c); // Wait until BTF Flag is set
 }
 
 // Shift addr 1 to the left.
