@@ -1,0 +1,41 @@
+#include <Wire.h>
+#include <Arduino.h>
+
+
+void setup() {
+  Wire.begin(); // Startet den Arduino als Master
+  Serial.begin(9600); // Startet die serielle Kommunikation zur Ausgabe von Debug-Informationen
+}
+
+void loop() {
+  // Sendet Befehle in regelmäßigen Abständen
+  delay(2000); // Warte 2 Sekunden zwischen den Befehlen
+
+  // Schaltet die weiße LED ein und die grüne LED aus
+  sendLEDCommand(0x01);
+  Serial.println("Weiße LED EIN, Grüne LED AUS");
+
+  delay(2000);
+
+  // Schaltet die grüne LED ein und die weiße LED aus
+  sendLEDCommand(0x02);
+  Serial.println("Grüne LED EIN, Weiße LED AUS");
+
+  delay(2000);
+
+  // Schaltet beide LEDs ein
+  sendLEDCommand(0x03);
+  Serial.println("Beide LEDs EIN");
+
+  delay(2000);
+
+  // Schaltet beide LEDs aus
+  sendLEDCommand(0x00);
+  Serial.println("Beide LEDs AUS");
+}
+
+void sendLEDCommand(byte command) {
+  Wire.beginTransmission(0x08); // Startet die Übertragung an den Slave mit Adresse 0x08
+  Wire.write(command); // Sendet den Befehl, der die LEDs steuert
+  Wire.endTransmission(); // Beendet die Übertragung
+}
