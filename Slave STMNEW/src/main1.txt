@@ -82,8 +82,8 @@ void I2C_RxHandler(int numBytes) {
 
 void I2C_TxHandler() {
   byte status = 0;
-  status |= digitalRead(LED_PIN_RED) << 0;  // Bit 0 für rote LED
-  status |= digitalRead(LED_PIN_BLUE) << 1; // Bit 1 für blaue LED
+  status |= digitalRead(LED_PIN_WHITE) << 0;  // Bit 0 für rote LED
+  status |= digitalRead(LED_PIN_GREEN) << 1; // Bit 1 für blaue LED
 
   Wire.write(status); // Sende den Status zurück zum Master
 }
