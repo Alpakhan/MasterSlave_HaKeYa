@@ -78,11 +78,22 @@ void I2C_RxHandler(int numBytes) {
   }
 }
 
+
+void I2C_TxHandler() {
+  byte status = 0;
+  status |= digitalRead(LED_PIN_RED) << 0;  // Bit 0 für rote LED
+  status |= digitalRead(LED_PIN_BLUE) << 1; // Bit 1 für blaue LED
+
+  Wire.write(status); // Sende den Status zurück zum Master
+}
+
+
 void setup() {
   pinMode(LED_PIN_BLUE, OUTPUT);
   pinMode(LED_PIN_RED, OUTPUT);
   Wire.begin(0x08);  // I2C als Slave mit Adresse 0x08
   Wire.onReceive(I2C_RxHandler);
+  Wire.onRequest(I2C_TxHandler);
   Serial.begin(9600);  // Beginne Serial Kommunikation
 }
 
