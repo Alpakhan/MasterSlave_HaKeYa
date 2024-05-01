@@ -4,6 +4,8 @@
 //Slave 1(LED: weiß,grün): 0x08
 //Slave 2(LED: blau,rot):  0x09
 
+//Funktion nach Änderung (Entfernen und wiedereinsetzen der Pull-Up Widerstände oder ändern der Herkunft der Bibliothek link oder lokal vorhanden) manchmal gegeben. 
+//Sonst "Aufhängen" bei erreichen der "i2c_master_transmit" Funktion.
 
 #include<stm32f401xe.h>
 #include <i2c.h>
