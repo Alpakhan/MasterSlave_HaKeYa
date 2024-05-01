@@ -1,22 +1,22 @@
+//Master
+
+//Adressen
+//Slave 1(LED: weiß,grün): 0x08
+//Slave 2(LED: blau,rot):  0x09
+
+
 #include<stm32f401xe.h>
 #include <i2c.h>
 #include <gpio.h>
 #include <stdio.h>
 #include <uart.h>
 
-#define I2C_WAIT_BUSY(i2c) ({ while (i2c->SR2 & I2C_SR2_BUSY) ; })
 
 uint8_t puffer[10];
-uint8_t x;
+uint8_t x = 0;
 
-uint8_t r_data[8];
-uint8_t t_data[8];
-
-
-
-//Adressen
-//Slave 1(LED: weiß,grün): 0x08
-//Slave 2(LED: blau,rot):  0x09
+uint8_t r_data[1];
+uint8_t t_data[1];
 
 
 int main()
@@ -30,7 +30,16 @@ int main()
 
     printf("Gruppe50\n");
     printf("Master\n");
+
     while(1){
+
+            // printf("\n0:%1c ", puffer[0]);
+            // printf("1:%1c ", puffer[1]);
+            // printf("2:%1c ", puffer[2]);
+            // printf("3:%1c ", puffer[3]);
+            // printf("4:%1c ", puffer[4]);
+            // printf("%1i\n", x);
+
         if (puffer[0] == 'g' && puffer[1] == 'r')       //LED grün soll bei Slave 1 0x08 toggeln
         {   
             printf("grün");
@@ -39,7 +48,11 @@ int main()
             printf("I2C master transmit: grün toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
-            t_data[0] = 0;
+            puffer[2]=0;
+            puffer[3]=0;
+            puffer[4]=0;
+            r_data[0]=0;
+            t_data[0]=0;
             x=0;
         }
 
@@ -52,6 +65,9 @@ int main()
             puffer[0]=0;
             puffer[1]=0;
             puffer[2]=0;
+            puffer[3]=0;
+            puffer[4]=0;
+            r_data[0]=0;
             t_data[0]=0;
             x=0;
         }
@@ -66,20 +82,25 @@ int main()
             puffer[0]=0;
             puffer[1]=0;
             puffer[2]=0;
+            puffer[3]=0;
+            puffer[4]=0;
+            r_data[0]=0;
             t_data[0]=0;
             x=0;
         }
 
-        if (puffer[0] == 'r'&& puffer[1] == 't')           // LED rot soll bei Slave 2 0x09 toggeln
+        if (puffer[0] == 'r'&& puffer[1] == 't')   // LED rot soll bei Slave 2 0x09 toggeln
         {
             printf("rot");
             t_data[0] = 2;
-            printf("%1i\n",i2c_master_transmit(I2C1,0x08,t_data,1));
-
+            i2c_master_transmit(I2C1,0x08,t_data,1);
             printf("I2C master transmit: rot toggeln\n");
             puffer[0]=0;
             puffer[1]=0;
             puffer[2]=0;
+            puffer[3]=0;
+            puffer[4]=0;
+            r_data[0]=0;
             t_data[0]=0;
             x=0;
         }
@@ -90,9 +111,13 @@ int main()
             t_data[0] = 5;
             printf("%1i\n",i2c_master_transmit(I2C1,0x08,t_data,1));
             printf("I2C master transmit: grün & weiß toggeln\n");
+
             puffer[0]=0;
             puffer[1]=0;
             puffer[2]=0;
+            puffer[3]=0;
+            puffer[4]=0;
+            r_data[0]=0;
             t_data[0]=0;
             x=0;
         }
@@ -103,9 +128,13 @@ int main()
             t_data[0] = 5;
             printf("%1i\n",i2c_master_transmit(I2C1,0x09,t_data,1));
             printf("I2C master transmit: rot & blau toggeln\n");
+
             puffer[0]=0;
             puffer[1]=0;
             puffer[2]=0;
+            puffer[3]=0;
+            puffer[4]=0;
+            r_data[0]=0;
             t_data[0]=0;
             x=0;
         }
@@ -170,11 +199,21 @@ int main()
             puffer[0]=0;
             puffer[1]=0;
             puffer[2]=0;
+            puffer[3]=0;
+            puffer[4]=0;
+            r_data[0]=0;
             t_data[0]=0;
             x=0;
         }
 
-            if (puffer[0] == '\n' || puffer[1] == '\n' || puffer[3] == '\n' || puffer[4] == '\n' || x > 4)
+            // printf("\n0:%1c ", puffer[0]);
+            // printf("1:%1c ", puffer[1]);
+            // printf("2:%1c ", puffer[2]);
+            // printf("3:%1c ", puffer[3]);
+            // printf("3:%1c ", puffer[4]);
+            // printf("%1i\n", x);
+
+        if (puffer[0] == '\n' || puffer[1] == '\n' || puffer[3] == '\n' || puffer[4] == '\n' || x > 4)
             {
                 puffer[0]=0;
                 puffer[1]=0;
@@ -184,13 +223,6 @@ int main()
                 x=0;
                 printf("-------------Neue--Eingabe-!---------------------\n");
             }
-
-            //printf("0:%1c\n", puffer[0]);
-            //printf("1:%1c\n", puffer[1]);
-            //printf("2:%1c\n", puffer[2]);
-            //printf("3:%1c\n", puffer[3]);
-            //printf("3:%1c\n", puffer[4]);
-            //printf("%1i\n", x);
 
 
       }
@@ -215,6 +247,6 @@ void USART2_IRQHandler()
         char byte = USART2->DR & 0x1FF;
         puffer[x] = byte;
         x = x+1;
-        printf("%c\n", byte);
+        printf("\nbyte:%c\n", byte);
     }
 }
