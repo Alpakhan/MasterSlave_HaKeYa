@@ -9,5 +9,3 @@ bei dem Serial Monitor der Slaves die dementsprechenden LEDs ebenfalls per Seria
 Print Befehl ausgegeben.
 
 Installation des Projekts ging über PlatformIO
-
-[Schaltplan.pdf](https://github.com/Alpakhan/MasterSlave_HaKeYa/files/15192253/Schaltplan.pdf)
