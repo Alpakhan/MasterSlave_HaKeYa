@@ -44,3 +44,58 @@ libraries scanning project source files.
 
 More information about PlatformIO Library Dependency Finder
 - https://docs.platformio.org/page/librarymanager/ldf.html
+
+
+
+
+Arduino I2C Slave LED Controller README
+
+
+Übersicht
+
+Dieses Projekt umfasst zwei Arduino-Sketches, die es ermöglichen, Arduinos als I2C-Slaves zu verwenden. Diese Slaves steuern jeweils zwei LEDs basierend auf den über I2C empfangenen Befehlen eines I2C-Masters. Der Code ermöglicht es, die LEDs einzeln oder gemeinsam zu schalten und den aktuellen Zustand der LEDs auf Anfrage des Masters zu senden.
+
+Hardware-Anforderungen
+
+Arduino-Boards: 2x (zum Beispiel Arduino Uno, Nano, etc.)
+LEDs: 4x (2 pro Arduino, angeschlossen an Pin 12 und 13)
+Widerstände: 220 Ohm für jede LED
+Verbindungskabel: I2C-Bus (SDA, SCL) und GND zwischen den Arduinos und dem 
+Master-Gerät
+
+Pull-up Widerstände für SDA und SCL Leitungen (typischerweise 4.7kΩ)
+
+Software-Anforderungen
+
+Arduino IDE: Zum Hochladen der Sketche auf die Arduino Boards
+
+Konfiguration der Schaltung
+
+LEDs anschließen:
+Rote LED an Pin 13 und blaue LED an Pin 12 jedes Arduino.
+Verbinden Sie den längeren Bein der LEDs über einen Widerstand mit den jeweiligen Pins und das kürzere Bein mit GND.
+
+I2C-Verbindungen:
+Verbinden Sie die SDA und SCL Pins zwischen den Arduinos und dem I2C-Master.
+Stellen Sie sicher, dass Pull-up Widerstände auf den SDA und SCL Leitungen zwischen den Arduinos und der Versorgungsspannung geschaltet sind.
+Code-Erklärung
+
+I2C_RxHandler: Diese Funktion wird aufgerufen, wenn der Slave Daten über I2C empfängt. Sie liest das empfangene Byte und steuert die LEDs entsprechend den Bits des Bytes.
+
+I2C_TxHandler: Diese Funktion wird aufgerufen, wenn der Master den Zustand der LEDs anfordert. Sie liest den Zustand der LEDs und sendet diesen zurück zum Master.
+
+Setup: Konfiguriert die Pins, initialisiert die I2C-Kommunikation mit einer festgelegten Slave-Adresse (0x08 oder 0x09) und startet die serielle Kommunikation zur Überwachung.
+
+Loop: Hier findet keine regelmäßige Aktualisierung statt, da die LED-Steuerung vollständig durch Interrupts gehandhabt wird.
+Nutzung
+
+Nach dem Hochladen des Codes auf die Arduinos und der korrekten Verkabelung, senden Sie Befehle vom I2C-Master, um die LEDs zu steuern oder deren Zustand zu prüfen.
+
+Überprüfen Sie die serielle Ausgabe auf jedem Arduino, um den Empfang von Befehlen und den Zustand der LEDs zu bestätigen.
+Fehlerbehebung
+
+Stellen Sie sicher, dass alle Verbindungen fest sind und keine losen Drähte vorhanden sind.
+
+Überprüfen Sie, ob die Pull-up Widerstände korrekt installiert sind.
+
+Stellen Sie sicher, dass die korrekten I2C-Adressen im Sketch und im Master-Code verwendet werden.

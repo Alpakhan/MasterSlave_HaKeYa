@@ -44,3 +44,45 @@ libraries scanning project source files.
 
 More information about PlatformIO Library Dependency Finder
 - https://docs.platformio.org/page/librarymanager/ldf.html
+
+
+
+
+Master Control für I2C LED Toggling
+Überblick
+Dieses Projekt implementiert eine Master-Steuerung auf einem STM32F401RE Mikrocontroller, die mit zwei I2C-Slave-Geräten kommuniziert. Jedes Slave-Gerät steuert zwei LEDs. Der Master sendet Befehle zum Ein- und Ausschalten der LEDs und fragt deren Status ab. Der Code ist in C geschrieben und verwendet die CMSIS-Bibliothek.
+
+Hardware-Anforderungen
+
+Master-Gerät: STM32F401RE oder ein äquivalenter Mikrocontroller
+
+Slave-Geräte: Zwei Arduino- oder ähnliche Mikrocontroller mit I2C-Kommunikationsfähigkeit
+LEDs: Vier LEDs (zwei pro Slave-Gerät)
+Verbindung: I2C-Bus mit korrekten Pull-Up-Widerständen auf SDA und SCL Leitungen
+Software-Anforderungen
+
+Entwicklungsumgebung: Keil uVision, STM32CubeIDE oder eine ähnliche IDE, die den ARM Cortex M4 unterstützt.
+Externe Bibliotheken: CMSIS-Bibliotheken für die Hardware-Abstraktion.
+
+Einrichtung
+
+Code auf den Master laden: Laden Sie den bereitgestellten Code auf den STM32F401 Mikrocontroller.
+Slave-Geräte konfigurieren: Stellen Sie sicher, dass jedes Slave-Gerät ordnungsgemäß eingerichtet ist, um auf I2C-Befehle zu reagieren.
+Hardware verbinden: Verbinden Sie den Master mit den Slaves über den I2C-Bus und stellen Sie sicher, dass die LED-Verbindungen korrekt sind.
+Funktionen des Codes
+
+LED-Steuerung: Der Master sendet Befehle zum Ein- und Ausschalten der LEDs basierend auf der Eingabe über eine UART-Konsole.
+Statusabfrage: Der Master kann den Status der LEDs abfragen und gibt die Antworten auf die UART-Konsole aus.
+UART-Kommunikation: Befehle werden über UART empfangen und verarbeitet, und Statusmeldungen werden ausgegeben.
+
+Fehlerbehebung und Benutzerfeedback: Bei Problemen im I2C-Transfer gibt der Code Feedback über die UART-Konsole.
+Benutzung
+
+Senden von Befehlen: Verwenden Sie eine serielle Terminal-Software, um Befehle wie 'gr', 'ws', 'bl', 'rt', '1', '2' oder 'chc' zu senden, um verschiedene LED-Operationen zu steuern.
+Empfangen von Statusmeldungen: Überwachen Sie die serielle Konsole, um die Antworten des Systems zu sehen, wie den Status der LEDs oder Fehlermeldungen.
+
+Fehlerbehebung
+
+Überprüfen Sie die I2C-Verbindungen und Pull-Up-Widerstände, falls Kommunikationsprobleme auftreten.
+Stellen Sie sicher, dass die Slave-Adressen korrekt programmiert sind und keine Adresskonflikte vorliegen.
+Überprüfen Sie die seriellen Verbindungen und Einstellungen, falls keine Daten auf der Konsole angezeigt werden.
