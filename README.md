@@ -1,5 +1,5 @@
 Dokumentation Microcontroller Projekt Gruppe 50 
-(Für bessere Darstellung READMNE.md öffenen und Code als Ansicht wählen)
+(Für bessere Darstellung READMNE.md öffnen und Code als Ansicht wählen)
 
 Master wurde im CMSIS Framekwork und mit der emcal Bibliothek von jomaway geschrieben. 
 https://codeberg.org/jomaway/stm32f401-mcal/src/branch/main
