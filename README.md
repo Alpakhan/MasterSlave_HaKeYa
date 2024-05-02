@@ -41,20 +41,20 @@ Master Transmit:
 5 mit Adresse 0x08 0> Slave 1 schaltet LED grün & LED weiß an.
 
 Master Receive:
-Wenn der Master nachfragt werden verschiedene Ziffern übertragen die der Master als Status inerprtiert.
+Wenn der Master nachfragt werden verschiedene Ziffern übertragen die der Master als Status interprtiert.
 
 Slave 1 0x08:
-1 => LED rot an , LED blau aus
-2 => LED rot aus, LED blau an
-3 => LED rot aus, LED blau aus
-4 => LED rot an , LED blau an
+0.Bit =0 => LED rot aus 
+0.Bit =1 => LED rot an
+1.Bit =0 => LED blau aus
+1.Bit =1 => LED blau an
 
 
-Slave 2 0x09:
-1 => LED weiß an , LED grün aus
-2 => LED weiß aus, LED grün an
-3 => LED weiß aus, LED grün aus
-4 => LED weiß an , LED grün an
+Slave 2 0x09:#
+0.Bit =0 => LED weiß aus
+0.Bit =1 => LED weiß an
+1.Bit =0 => LED grün aus
+1.Bit =1 => LED grün an
 
 Das wird in einer Statusmeldung über UART ausgegeben.
 
