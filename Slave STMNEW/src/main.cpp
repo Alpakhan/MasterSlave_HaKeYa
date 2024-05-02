@@ -23,7 +23,7 @@ void I2C_RxHandler(int numBytes) {
     Serial.print("Blaue LED ist ");
     Serial.println(receivedByte & 0x04 ? "EIN" : "AUS");
     Serial.println("Beide sind");
-    Serial.println(receivedByte & 0x06 ? "EIN" : "AUS");
+    Serial.println(receivedByte & 0x05 ? "EIN" : "AUS");
   }
 }
 void I2C_RxHandler(int numBytes) {
