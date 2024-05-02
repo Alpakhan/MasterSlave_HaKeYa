@@ -1,4 +1,4 @@
-//Master
+//Master by Tobias Kerschensteiner
 
 //Adressen
 //Slave 1(LED: weiß,grün): 0x08
