@@ -1,5 +1,11 @@
 Dokumentation Microcontroller Projekt Gruppe 50
 
+Master wurde im CMSIS Framekwork und mit der emcal Bibliothek von jomaway geschrieben. 
+https://codeberg.org/jomaway/stm32f401-mcal/src/branch/main
+
+Die beiden Slaves wurden im Arduino Framework geschrieben.
+
+
 Befehle werden über UART2 angenommen und über I2C1 an die Slaves gesendet, dort wird überprüft wie weiter mit dem Befehl zu verfahren ist.
 
 
@@ -58,13 +64,6 @@ Diese sagt aus das über I2C eine Nachricht von 0x08 (Slave1) empfangen wurde di
 
 Sollte etwas anderes als die erwarteten Ziffern zurückkommen wird eine Fehlermeldung über UART ausgegeben.
 
-Durch das Eingeben in den Serial Monitor des Masters wird der Code von 1-6 über UART 
-oder dem Master Code umgewandelt in einen Befehl, welcher man über I2C an die 
-Slaves gegeben wird, wodurch die verschiedenen LEDs dementsprechend angemacht 
-oder ausgemacht werden, je nachdem ob die LEDs gerade an oder aus sind. Zudem wird 
-bei dem Serial Monitor der Slaves die dementsprechenden LEDs ebenfalls per Serial 
-Print Befehl ausgegeben.
-
 Installation des Projekts ging über PlatformIO
 
-
+[Hier befindet sich der physikalischer Aufbau als Schaltplan](Schaltplan.pdf)
