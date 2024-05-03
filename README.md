@@ -65,6 +65,12 @@ Diese sagt aus das über I2C eine Nachricht von 0x08 (Slave1) empfangen wurde di
 
 Sollte etwas anderes als die erwarteten Bitmuster zurückkommen wird eine Fehlermeldung über UART ausgegeben.
 
+Zudem wird bei Erhalten eines Befehls von der UART der Slaves folgende Zeilen ausgegeben:
+Es werden immer alle Zeilen nacheinander ausgegeben und sagen ahs welche LED an oder aus ist, eine UART schaut beispielsweise so aus:
+"Rote LED ist EIN/AUS"
+"Blaue LED ist EIN/AUS"
+"Beide LEDs sind EIN/AUS"
+
 Installation des Projekts ging über PlatformIO
 
 [Hier befindet sich der physikalischer Aufbau als Schaltplan](Schaltplan.pdf)
