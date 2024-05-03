@@ -19,9 +19,9 @@ void I2C_RxHandler(int numBytes) {
     digitalWrite(LED_PIN_BLUE, receivedByte & 0x04 ? HIGH : LOW);  // Setze die grüne LED (Bit 1)
     digitalWrite(LED_PIN_RED & LED_PIN_BLUE, receivedByte & 0x05 ? HIGH : LOW);
     Serial.print("Rote LED ist ");
-    Serial.println(receivedByte & 0x03 ? "EIN" : "AUS");
+    Serial.println(receivedByte & 0x01 ? "EIN" : "AUS");
     Serial.print("Blaue LED ist ");
-    Serial.println(receivedByte & 0x04 ? "EIN" : "AUS");
+    Serial.println(receivedByte & 0x02 ? "EIN" : "AUS");
     Serial.println("Beide sind");
     Serial.println(receivedByte & 0x05 ? "EIN" : "AUS");
   }
@@ -37,18 +37,18 @@ void I2C_RxHandler(int numBytes) {
     Serial.println(receivedByte, BIN); // BIN für binäre Darstellung
 
     // Steuerung der roten LED (Bit 0)
-    digitalWrite(LED_PIN_RED, receivedByte & 0x03 ? HIGH : LOW);
+    digitalWrite(LED_PIN_RED, receivedByte & 0x01 ? HIGH : LOW);
     // Steuerung der blauen LED (Bit 1)
-    digitalWrite(LED_PIN_BLUE, receivedByte & 0x04 ? HIGH : LOW);
+    digitalWrite(LED_PIN_BLUE, receivedByte & 0x02 ? HIGH : LOW);
 
     // Gleichzeitige Steuerung beider LEDs (Bit 2)
-    if (receivedByte & 0x06) {
+    if (receivedByte & 0x05) {
       digitalWrite(LED_PIN_RED, HIGH);
       digitalWrite(LED_PIN_BLUE, HIGH);
     } else {
       // Wenn Bit 2 nicht gesetzt ist, behalten die anderen Bits ihre Kontrolle.
-      digitalWrite(LED_PIN_RED, receivedByte & 0x03 ? HIGH : LOW);
-      digitalWrite(LED_PIN_BLUE, receivedByte & 0x04 ? HIGH : LOW);
+      digitalWrite(LED_PIN_RED, receivedByte & 0x01 ? HIGH : LOW);
+      digitalWrite(LED_PIN_BLUE, receivedByte & 0x02 ? HIGH : LOW);
     }
 
     Serial.print("Rote LED ist ");
