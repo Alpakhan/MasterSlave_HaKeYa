@@ -1,4 +1,4 @@
-//Master by Tobias Kerschensteiner
+//Master
 
 //Adressen
 //Slave 1(LED: weiß,grün): 0x08
@@ -157,11 +157,11 @@ int main()
                     printf("I2C 0x08 master receive: ROT ist AUS BLAU ist AN\n");
                 break;
 
-                case 3: //ALLE TOT!!!!11!!"
+                case 0: //Rot ist aus , Blau ist aus
                     printf("I2C 0x08 master receive: ROT ist AUS BLAU ist AUS\n");
                 break;
 
-                case 4: //Rot ist an , Blau ist an
+                case 3: //Rot ist an , Blau ist an
                     printf("I2C 0x08 master receive: ROT ist AN BLAU ist AN\n");
                 break;
 
@@ -185,11 +185,11 @@ int main()
                     printf("I2C 0x09 master receive: WEIß ist AUS GRÜN ist AN\n");
                 break;
 
-                case 3: //ALLE TOT !!!11!!1!!!!
+                case 0: //Weiß ist aus , Grün ist aus
                 printf("I2C 0x09 master receive: WEIß ist AUS GRÜN ist AUS\n");
                 break;
 
-                case 4: //Weiß ist an , Grün ist an
+                case 3: //Weiß ist an , Grün ist an
                 printf("I2C 0x09 master receive: WEIß ist AN GRÜN ist AN\n");
                 break;
 
