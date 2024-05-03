@@ -1,5 +1,5 @@
 # Dokumentation Microcontroller Projekt Gruppe 50 
-(Für bessere Darstellung READMNE.md öffnen und Code als Ansicht wählen)
+(Für bessere Darstellung README.md öffnen und Code als Ansicht wählen)
 
 Master wurde im CMSIS Framekwork und mit der mcal Bibliothek von jomaway geschrieben. 
 https://codeberg.org/jomaway/stm32f401-mcal/src/branch/main
@@ -42,7 +42,7 @@ Master Transmit:
 5 mit Adresse 0x08 0> Slave 1 schaltet LED grün & LED weiß an.
 
 Master Receive:
-Wenn der Master nachfragt werden verschiedene Ziffern übertragen die der Master als Status interprtiert.
+Wenn der Master nachfragt werden verschiedene Bitmuster übertragen die der Master als Status interprtiert.
 
 Slave 1 0x08:
 0.Bit =0 => LED rot aus 
@@ -51,7 +51,7 @@ Slave 1 0x08:
 1.Bit =1 => LED blau an
 
 
-Slave 2 0x09:#
+Slave 2 0x09:
 0.Bit =0 => LED weiß aus
 0.Bit =1 => LED weiß an
 1.Bit =0 => LED grün aus
@@ -63,7 +63,7 @@ Eine Statusmeldung sieht so aus:
 I2C 0x08 master receive: ROT ist AN BLAU ist AUS
 Diese sagt aus das über I2C eine Nachricht von 0x08 (Slave1) empfangen wurde die aussagt, das LED rot leuchtet und LED blau aus ist. 
 
-Sollte etwas anderes als die erwarteten Ziffern zurückkommen wird eine Fehlermeldung über UART ausgegeben.
+Sollte etwas anderes als die erwarteten Bitmuster zurückkommen wird eine Fehlermeldung über UART ausgegeben.
 
 Installation des Projekts ging über PlatformIO
 
